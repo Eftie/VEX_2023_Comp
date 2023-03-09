@@ -1,12 +1,27 @@
+#ifndef ROBOT_CONFIG_H_
+#define ROBOT_CONFIG_H_
+
 using namespace vex;
 
 extern brain Brain;
 
 // VEXcode devices
 extern controller Controller1;
+
+extern motor leftMotorA;
+extern motor leftMotorB;
+extern motor rightMotorA;
+extern motor rightMotorB;
+
+extern motor Intake;
+extern motor Roller;
+extern motor Shooter;
+
+extern motor_group LeftSide;
+extern motor_group RightSide;
 extern drivetrain Drivetrain;
-extern motor Motor13;
-extern motor Motor14;
+
+#endif
 
 /**
  * Used to initialize code/tasks/devices added using tools in VEXcode Pro.

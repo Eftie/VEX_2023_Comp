@@ -1,4 +1,5 @@
 #include "vex.h"
+#include "robot-config.h"
 
 using namespace vex;
 using signature = vision::signature;
@@ -9,16 +10,19 @@ brain  Brain;
 
 // VEXcode device constructors
 controller Controller1 = controller(primary);
+
 motor leftMotorA = motor(PORT11, ratio18_1, false);
 motor leftMotorB = motor(PORT12, ratio18_1, false);
-motor_group LeftSide = motor_group(leftMotorA, leftMotorB);
 motor rightMotorA = motor(PORT17, ratio18_1, true);
 motor rightMotorB = motor(PORT19, ratio18_1, true);
-motor_group RightSide = motor_group(rightMotorA, rightMotorB);
-drivetrain Drivetrain = drivetrain(LeftSide, RightSide, 319.19, 295, 40, mm, 1);
+
 motor Intake = motor(PORT1, ratio18_1, false);
 motor Roller = motor(PORT2, ratio18_1, false);
 motor Shooter = motor(PORT15, ratio18_1, false);
+
+motor_group LeftSide = motor_group(leftMotorA, leftMotorB);
+motor_group RightSide = motor_group(rightMotorA, rightMotorB);
+drivetrain Drivetrain = drivetrain(LeftSide, RightSide, 319.19, 295, 40, mm, 1);
 
 // VEXcode generated funawdaaawns
 // define variable for remote controller enable/disable
