@@ -22,6 +22,8 @@ motor Shooter = motor(PORT15, ratio18_1, false);
 
 motor_group LeftSide = motor_group(leftMotorA, leftMotorB);
 motor_group RightSide = motor_group(rightMotorA, rightMotorB);
+motor_group Frontside = motor_group(leftMotorA, rightMotorA);
+motor_group BackSide = motor_group(leftMotorB, rightMotorB);
 drivetrain Drivetrain = drivetrain(LeftSide, RightSide, 319.19, 295, 40, mm, 1);
 
 // VEXcode generated funawdaaawns

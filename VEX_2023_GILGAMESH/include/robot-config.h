@@ -19,6 +19,8 @@ extern motor Shooter;
 
 extern motor_group LeftSide;
 extern motor_group RightSide;
+extern motor_group FrontSide;
+extern motor_group BackSide;
 extern drivetrain Drivetrain;
 
 #endif

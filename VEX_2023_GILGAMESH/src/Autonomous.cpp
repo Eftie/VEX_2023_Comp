@@ -11,7 +11,8 @@ class Autonomous {
   public:
 
     // how many degrees per inch in a 4" wheel
-    float inchPerDegree = (3.1415926535 * 4.0) / 360;
+    float x;
+    float inchPerDegree = (3.1415926535 * x) / 360;
 
     void Move_Y(short inchAmt) {
 
@@ -32,18 +33,20 @@ class Autonomous {
     */
     void Move_X(short inchAmt, bool left) {
 
-      if (left) {
+      this->x = 4.0;
+      int runAmt;
+      if (fabs(this->inchPerDegree) > 360) {
+        runAmt = Move_X(this->inchPerDegree, 1);
+      }
 
-          leftMotorA.spinTo(inchAmt / inchPerDegree, degrees);
-          rightMotorA.spinTo(inchAmt / -inchPerDegree, degrees);
-          leftMotorB.spinTo(inchAmt / -inchPerDegree, degrees);
-          rightMotorB.spinTo(inchAmt / inchPerDegree, degrees);
+      if (left) {
+        LeftSide.spinTo(inchAmt / this->inchPerDegree, degrees);
+        RightSide.spinTo(inchAmt / -this->inchPerDegree, degrees);
+
       } else {
 
-          leftMotorA.spinTo(inchAmt / -inchPerDegree, degrees);
-          rightMotorA.spinTo(inchAmt / inchPerDegree, degrees);
-          leftMotorB.spinTo(inchAmt / inchPerDegree, degrees);
-          rightMotorB.spinTo(inchAmt / -inchPerDegree, degrees);
+        LeftSide.spinTo(inchAmt / -this->inchPerDegree, degrees);
+        RightSide.spinTo(inchAmt / this->inchPerDegree, degrees);
       }
 
       leftMotorA.stop();
@@ -69,6 +72,12 @@ class Autonomous {
         runAmt += 1;
 
         return Move_X(degreeAmt, runAmt);
+        
+      } else if (degreeAmt < -360) {
+        degreeAmt += 360;
+        runAmt += 1;
+
+        return Move_X(degreeAmt, runAmt);
       }
 
       return runAmt;
@@ -82,12 +91,12 @@ class Autonomous {
     */
     void Move_XY(short inchAmt, bool reverse, bool left) {
 
-      float inchPerDegree = (3.1415926535 * 4.0) / 360;
+      this->x = 4.0;
 
       if (!reverse && left) {
 
-        leftMotorA.spinTo(inchAmt / inchPerDegree, degrees);
-        rightMotorB.spinTo(inchAmt / inchPerDegree, degrees);
+        leftMotorA.spinTo(inchAmt / this->inchPerDegree, degrees);
+        rightMotorB.spinTo(inchAmt / this->inchPerDegree, degrees);
 
         leftMotorA.stop();
         rightMotorB.stop();
@@ -96,8 +105,8 @@ class Autonomous {
         rightMotorB.resetPosition();
       } if (!reverse && !left) {
 
-        rightMotorA.spinTo(inchAmt / inchPerDegree, degrees);
-        leftMotorB.spinTo(inchAmt / inchPerDegree, degrees);
+        rightMotorA.spinTo(inchAmt / this->inchPerDegree, degrees);
+        leftMotorB.spinTo(inchAmt / this->inchPerDegree, degrees);
 
         rightMotorA.stop();
         leftMotorB.stop();
@@ -108,8 +117,8 @@ class Autonomous {
       
       if (reverse && left) {
 
-        rightMotorA.spinTo(inchAmt / -inchPerDegree, degrees);
-        leftMotorB.spinTo(inchAmt / -inchPerDegree, degrees);
+        rightMotorA.spinTo(inchAmt / -this->inchPerDegree, degrees);
+        leftMotorB.spinTo(inchAmt / -this->inchPerDegree, degrees);
 
         rightMotorA.stop();
         leftMotorB.stop();
@@ -119,8 +128,8 @@ class Autonomous {
       }
 
       if (reverse && !left) {
-        leftMotorA.spinTo(inchAmt / -inchPerDegree, degrees);
-        rightMotorB.spinTo(inchAmt / -inchPerDegree, degrees);
+        leftMotorA.spinTo(inchAmt / -this->inchPerDegree, degrees);
+        rightMotorB.spinTo(inchAmt / -this->inchPerDegree, degrees);
 
         leftMotorA.stop();
         rightMotorB.stop();
@@ -183,16 +192,16 @@ class Autonomous {
     */
     void Rotate(float degreeAmt, bool left) {
 
-      float inchPerDegree = (3.1415926535 * 4.0) / 360;
+      this->x = 4.0;
 
       if (!left) {
 
-        LeftSide.spinTo(inchPerDegree * degreeAmt, degrees);
+        LeftSide.spinTo(this->inchPerDegree * degreeAmt, degrees);
         LeftSide.stop();
         LeftSide.resetPosition();
       } else {
 
-        RightSide.spinTo(inchPerDegree * degreeAmt, degrees);
+        RightSide.spinTo(this->inchPerDegree * degreeAmt, degrees);
         RightSide.stop();
         RightSide.resetPosition();
       }
@@ -207,14 +216,14 @@ class Autonomous {
     */
     void Pivot(float degreeAmt, bool left) {
 
-      float inchPerDegree = (3.1415926535 * 4.0) / 360;
+      this->x = 4.0;
 
       if (!left) {
-          leftMotorA.spinTo(inchPerDegree * degreeAmt, degrees);
-          rightMotorA.spinTo(-inchPerDegree * degreeAmt, degrees);
+          leftMotorA.spinTo(this->inchPerDegree * degreeAmt, degrees);
+          rightMotorA.spinTo(-this->inchPerDegree * degreeAmt, degrees);
       } else {
-          leftMotorA.spinTo(-inchPerDegree * degreeAmt, degrees);
-          rightMotorA.spinTo(inchPerDegree * degreeAmt, degrees);
+          leftMotorA.spinTo(-this->inchPerDegree * degreeAmt, degrees);
+          rightMotorA.spinTo(this->inchPerDegree * degreeAmt, degrees);
       }
 
       leftMotorA.stop();
@@ -230,19 +239,19 @@ class Autonomous {
     */
     void RotateClockwise(float degreeAmt, bool counter) {
 
-      float inchPerDegree = (3.1415926535 * 4.0) / 360;
+      this->x = 4.0;
 
       if (!counter) {
-        leftMotorA.spinTo(inchPerDegree * degreeAmt, degrees);
-        rightMotorA.spinTo(inchPerDegree * degreeAmt, degrees);
-        leftMotorB.spinTo(-inchPerDegree * degreeAmt, degrees);
-        rightMotorB.spinTo(-inchPerDegree * degreeAmt, degrees);
+        leftMotorA.spinTo(this->inchPerDegree * degreeAmt, degrees);
+        rightMotorA.spinTo(this->inchPerDegree * degreeAmt, degrees);
+        leftMotorB.spinTo(-this->inchPerDegree * degreeAmt, degrees);
+        rightMotorB.spinTo(-this->inchPerDegree * degreeAmt, degrees);
       } else {
 
-        leftMotorA.spinTo(-inchPerDegree * degreeAmt, degrees);
-        rightMotorA.spinTo(-inchPerDegree * degreeAmt, degrees);
-        leftMotorB.spinTo(inchPerDegree * degreeAmt, degrees);
-        rightMotorB.spinTo(inchPerDegree * degreeAmt, degrees);
+        leftMotorA.spinTo(-this->inchPerDegree * degreeAmt, degrees);
+        rightMotorA.spinTo(-this->inchPerDegree * degreeAmt, degrees);
+        leftMotorB.spinTo(this->inchPerDegree * degreeAmt, degrees);
+        rightMotorB.spinTo(this->inchPerDegree * degreeAmt, degrees);
       }
 
       //(!counter) ? FrontLeftWheel.spinTo(inchPerDegree * degreeAmt, degrees), BackLeftWheel.spinTo(inchPerDegree * degreeAmt, degrees), FrontRightWheel.spinTo(-inchPerDegree * degreeAmt, degrees), BackRightWheel.spinTo(-inchPerDegree * degreeAmt, degrees) : FrontLeftWheel.spinTo(-inchPerDegree * degreeAmt, degrees), BackLeftWheel.spinTo(-inchPerDegree * degreeAmt, degrees), FrontRightWheel.spinTo(inchPerDegree * degreeAmt, degrees), BackRightWheel.spinTo(inchPerDegree * degreeAmt, degrees);
